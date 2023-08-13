@@ -3,11 +3,10 @@ const Contact = require('../../models/contacts');
 const router = express.Router()
 
 router.get('/', async (req, res, next) => {
-  try { 
+  try {
     const contacts = await Contact.find();
     res.json(contacts);
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Error fetching contacts:', error);
     res.status(500).json({ error: 'Server error', message: error.message });
   }

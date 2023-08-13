@@ -4,6 +4,7 @@ const uri = "mongodb+srv://vampirerachel:homeworkhomework@cluster0.ma9fyeg.mongo
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  connectTimeoutMS: 30000,
 })
   .then(() => {
     console.log('Database connection successful');
