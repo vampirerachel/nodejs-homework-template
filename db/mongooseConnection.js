@@ -1,16 +1,15 @@
-const mongoose = require('mongoose');
-const uri = "mongodb+srv://vampirerachel:homeworkhomework@cluster0.ma9fyeg.mongodb.net/?retryWrites=true&w=majority";
+const mongoose = require("mongoose");
+require("dotenv").config();
 
-mongoose.connect(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  connectTimeoutMS: 30000,
-})
+const { DB_HOST } = process.env;
+
+mongoose
+  .connect(DB_HOST)
   .then(() => {
-    console.log('Database connection successful');
+    console.log("Database connection successful");
   })
   .catch((error) => {
-    console.error('Database connection error:', error);
+    console.log(error.message);
     process.exit(1);
   });
 

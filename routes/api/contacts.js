@@ -4,7 +4,9 @@ const router = express.Router()
 
 router.get('/', async (req, res, next) => {
   try {
-    const contacts = await Contact.find();
+    console.log('Fetching contacts...');
+    const contacts = await Contact.find().select('-__v');;
+    console.log('Contacts fetched:', contacts);
     res.json(contacts);
   } catch (error) {
     console.error('Error fetching contacts:', error);
@@ -14,7 +16,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:contactId', async (req, res, next) => {
   try {
-    const contact = await Contact.findById(req.params.contactId); 
+    const contact = await Contact.findById(req.params.contactId).select('-__v'); 
     if (!contact) {
       return res.status(404).json({ error: 'Contact not found' });
     }
@@ -28,6 +30,7 @@ router.get('/:contactId', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const newContact = await Contact.create(req.body);
+    newContact.__v = undefined;
     res.status(201).json(newContact)
   }
   catch (error) {
@@ -53,8 +56,8 @@ router.put('/:contactId', async (req, res, next) => {
     const updatedContact = await Contact.findByIdAndUpdate(
       req.params.contactId,
       req.body,
-      { new: true } // Returns the updated contact
-    );
+      { new: true } 
+    ).select('-__v');
     if (!updatedContact) {
       return res.status(404).json({ error: 'Contact not found' });
     }
@@ -90,7 +93,7 @@ async function updateStatusContact(contactId, updates) {
       contactId,
       updates,
       { new: true }
-    );
+    ).select("-__v");
     return updatedContact;
   } catch (error) {
     return null;
