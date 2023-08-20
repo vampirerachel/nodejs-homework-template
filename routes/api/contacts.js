@@ -2,6 +2,7 @@ const express = require('express')
 const Contact = require('../../models/contacts');
 const router = express.Router()
 
+
 router.get('/', async (req, res, next) => {
   try {
     console.log('Fetching contacts...');
@@ -29,7 +30,7 @@ router.get('/:contactId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const newContact = await Contact.create(req.body);
+    const newContact = await Contact.create({ ...req.body, owner: req.user._id, });
     newContact.__v = undefined;
     res.status(201).json(newContact)
   }
