@@ -4,6 +4,8 @@ const cors = require('cors');
 const path = require('path'); 
 const contactsRouter = require('./routes/api/contacts'); 
 const userRouter = require('./routes/api/user');
+const authRoutes = require('./routes/api/authRoutes');
+const verificationRoutes = require('./routes/api/verificationRoutes')
 require('dotenv').config();
 const app = express();
 
@@ -15,7 +17,8 @@ app.use(express.json());
 
 app.use('/api/contacts', contactsRouter);
 app.use('/api/users', userRouter);
-
+app.use('/api/auth', authRoutes);
+app.use('/api/users/verify', verificationRoutes);
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use((req, res) => {
